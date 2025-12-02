@@ -12,7 +12,7 @@ interface MinorCredits {
 }
 
 // function to sum credits
-function sumMajorCrdits(subject1: MajorCredits, subject2: MajorCredits): MajorCredits {
+function sumMajorCredits(subject1: MajorCredits, subject2: MajorCredits): MajorCredits {
     return {
         credits: subject1.credits + subject2.credits, brand: "major"
     }
@@ -26,5 +26,8 @@ function sumMinorCredits(subject1: MinorCredits, subject2: MinorCredits): MinorC
 }
 // example how branding prevents mixing
 const major1: MajorCredits = {credits: 3, brand: "major"}
+const major2: MajorCredits = {credits: 4, brand: "major"}
 
 const minor1: MinorCredits = {credits: 2, brand: "minor"}
+
+sumMajorCredits(major1, major2);
