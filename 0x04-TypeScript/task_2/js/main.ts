@@ -16,12 +16,12 @@ interface Director {
 }
 
 // check if employee is a director
-function isDirector(employee: Teacher | Director): employee is Director {
+export  function isDirector(employee: Teacher | Director): employee is Director {
   return (employee as Director).workDirectorTasks !== undefined;
 }
 
 // function to execute the correct work method
-function executeWork(employee: Teacher | Director): string {
+export function executeWork(employee: Teacher | Director): string {
     if (isDirector(employee)){
         return employee.workDirectorTasks();
     } else {
