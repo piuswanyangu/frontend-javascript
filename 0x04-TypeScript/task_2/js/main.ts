@@ -7,24 +7,77 @@
 // if the employee is a Teacher, it will call workTeacherTasks
 // /teacher and directors interface
 
-interface Teacher {
-    workTeacherTask(): string;
+// --- Employee Interfaces ---
+
+interface Employee {
+  salary: number;
+  // Discriminant property for type checking
+  role: 'Director' | 'Teacher' | 'Employee';
 }
 
-interface Director {
-    workDirectorTasks(): string;
+interface Director extends Employee {
+  role: 'Director';
+  reportsTo: string;
 }
 
-// check if employee is a director
-export  function isDirector(employee: Teacher | Director): employee is Director {
-  return (employee as Director).workDirectorTasks !== undefined;
+interface Teacher extends Employee {
+  role: 'Teacher';
+  subject: string;
 }
 
-// function to execute the correct work method
-export function executeWork(employee: Teacher | Director): string {
-    if (isDirector(employee)){
-        return employee.workDirectorTasks();
+// --- Work Functions ---
+
+function workDirectorTasks(): void {
+    console.log('Getting to director tasks');
+}
+
+function workTeacherTasks(): void {
+    console.log('Getting to work');
+}
+
+// --- Type Predicate ---
+
+/**
+ * Type predicate: Narrows the type of 'employee' to 'Director'.
+ */
+export function isDirector(employee: Employee): employee is Director {
+    return employee.role === 'Director';
+}
+
+// --- Factory ---
+
+function createEmployee(salary: number): Director | Teacher {
+    if (salary > 500) {
+        return {
+            salary: salary,
+            role: 'Director',
+            reportsTo: 'CEO'
+        } as Director;
     } else {
-        return employee.workTeacherTask();
+        return {
+            salary: salary,
+            role: 'Teacher',
+            subject: 'Math'
+        } as Teacher;
     }
 }
+
+// --- Main Function ---
+
+function executeWork(employee: Employee): void {
+    if (isDirector(employee)) {
+        // TypeScript knows this is a Director
+        workDirectorTasks();
+    } else {
+        // Must be a Teacher by exclusion
+        workTeacherTasks();
+    }
+}
+
+// --- Execution ---
+
+console.log('--- Executing for Teacher (Salary 200) ---');
+executeWork(createEmployee(200));
+
+console.log('\n--- Executing for Director (Salary 1000) ---');
+executeWork(createEmployee(1000));
