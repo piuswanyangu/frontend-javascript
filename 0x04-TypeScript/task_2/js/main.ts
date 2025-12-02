@@ -67,10 +67,10 @@ function createEmployee(salary: number): Director | Teacher {
 function executeWork(employee: Employee): void {
     if (isDirector(employee)) {
         // TypeScript knows this is a Director
-        workDirectorTasks();
+        return workDirectorTasks();
     } else {
         // Must be a Teacher by exclusion
-        workTeacherTasks();
+        return workTeacherTasks();
     }
 }
 
